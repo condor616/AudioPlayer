@@ -1,4 +1,4 @@
-#audioplayer1{
+div[id^=audioplayer]{
 	width: 450px;
 	height: 35px;
 	margin: 50px auto auto auto;

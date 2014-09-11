@@ -11,7 +11,7 @@
 	var music; // the audio tag
 	var duration;
 	var timelineWidth;
-	
+	var audioElement;
 	// Boolean value so that mouse is moved on mouseUp only when the playhead is released 
 	var onplayhead = false;
 	
@@ -40,18 +40,17 @@
 		},
 		
 		setVariables: function(settings){
-			//audioIE = document.getElementById(settings.audioId);
-			spentTime = $('div.spent-time');
-			remainingTime = $('div.remaining-time');
-			timeline = $('.timeline'); // timeline
-			sound = $('.sound'); //sound
-			playhead = $('.playhead');
-			played = $('.played');
+			audioElement = $('audio#'+settings.audioId);
+			spentTime = $("#"+settings.hook +' div.spent-time');
+			remainingTime = $("#"+settings.hook + ' div.remaining-time');
+			timeline = $("#"+settings.hook + ' .timeline'); // timeline
+			sound = $("#"+settings.hook + ' .sound'); //sound
+			playhead = $("#"+settings.hook + ' .playhead');
+			played = $("#"+settings.hook + ' .played');
 			button = $("#" + settings.buttonId);
-			//music = $("#" + settings.audioId);
 			music = document.getElementById(settings.audioId)
 			music.muted = false;
-			timelineWidth = $('.timeline').width() - $('playhead').width();			
+			timelineWidth = $("#"+settings.hook + ' .timeline').width() - $("#"+settings.hook + ' playhead').width();			
 		},
 		
 		buildDOM: function(settings){
@@ -97,10 +96,10 @@
 			);
 			
 			//event fired every time the time get updated
-			$('audio').bind('timeupdate', methods.timeUpdate);
+			$(audioElement).bind('timeupdate', methods.timeUpdate);
 			
 			//set the duration
-			$('audio').bind('loadedmetadata', methods.setDuration);
+			$(audioElement).bind('loadedmetadata', methods.setDuration);
 			
 			//Makes timeline clickable
 			$('.timeline').bind(
@@ -126,7 +125,7 @@
 				$(window).unbind('mousemove');
 				// change current time
 				music.currentTime = duration * methods.clickPercent(e);
-				$('#music').bind('timeupdate', methods.timeUpdate);
+				$(audioElement).bind('timeupdate', methods.timeUpdate);
 			}
 				onplayhead = false;
 		},
@@ -134,7 +133,7 @@
 		mousedown: function(){
 			onplayhead = true;
 			$(window).bind('mousemove', methods.moveplayhead);
-			$('audio').unbind('timeupdate');
+			$(audioElement).unbind('timeupdate');
 
 
 		},
@@ -192,8 +191,8 @@
 			spentTime.html(methods.convertSeconds(music.currentTime));
 	
 			if (music.currentTime == duration) {
-				pButton.className = "";
-				pButton.className = "play";
+				button.className = "";
+				button.className = "play";
 			}
 		},
 		
