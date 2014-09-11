@@ -12,12 +12,15 @@
 
 		/*YouTube Video Library Loading*/
 		var settings = {
-			hook: "audioplayer1",
-			buttonId: "button2",
-			audioId: "music"
+			hook: ["audioplayer1", "audioplayer2"],
+			buttonId: ["button1", "button2"],
+			audioId: ["music1", "music2"]
 		}
+		
+		
 	
-		$('#audioplayer').jQueryAudioPlayer('init',settings);
+		$('#audioplayer1').jQueryAudioPlayer('init',settings);
+		
 	}); //document.ready 
 </script>
 
@@ -25,27 +28,18 @@
 
 <body>
 
-<audio id="music" preload="true">
+<audio id="music1" preload="true">
   <source src="audio/demo.mp3">
 </audio>
 
-<div id="audioplayer1">
-  <!--
-  <button id="pButton" class="play" onclick="play()"></button>
-  <div id="timeline">    
-  		  <div id="playhead"></div>
-          <div id="played"></div>
-  </div>
-  <div class="counter">
-    <span class="spent-time"></span> 
-   	<span class="remaining-time"></span>
-  </div>
-  <div id="sound">
-  	
-  </div>
-  -->
-</div>
+<audio id="music2" preload="true">
+  <source src="audio/demo.mp3">
+</audio>
 
+<!--
+<div id="audioplayer1"></div>
+<div id="audioplayer2"></div>
+-->
 
 <!--<script language="javascript" type="text/javascript" src="js/audioplayer.js"></script>-->
 

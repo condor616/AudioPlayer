@@ -1,19 +1,21 @@
 (function($){
 		
 	//variables
-	
-	var spentTime;
-	var remainingTime ;
-	var timeline; // timeline
-	var sound; //sound
-	var playhead;
+	var numberOfAudioElements;
+	var spentTime = [];
+	var remainingTime  = [];
+	var timeline = []; // timeline
+	var sound = []; //sound
+	var playhead = [];
+	var played = [];
+	var button = [];
 	var imagesRoot = "images/"
-	var music; // the audio tag
-	var duration;
-	var timelineWidth;
-	var audioElement;
+	var music = []; // the audio tag
+	var duration = [];
+	var timelineWidth = [];
+	var audioElement = [];
 	// Boolean value so that mouse is moved on mouseUp only when the playhead is released 
-	var onplayhead = false;
+	var onplayhead = [false, false];
 	
 	
 	//Methods
@@ -23,16 +25,23 @@
 		init: function(settings){
 		
 			_defaultSettings = {
-				hook: "audioplayer",
-				buttonId: "pButton",
-				audioId: "music"
+				/*
+				hook: ["audioplayer"],
+				buttonId: ["pButton"],
+				audioId: ["music"]
+				*/
 			}
 			
 			//overwrite the default values with the variables
 			if (settings) $.extend(_defaultSettings, settings);	
 			
-			//render the scheleton of the audio DOM
+			/*
+			How many AUDIO elements in the page?
+			*/
+			var x = document.getElementsByTagName('audio');
+			numberOfAudioElements = x.length;
 			
+			//render the scheleton of the audio DOM
 			methods.buildDOM(_defaultSettings);
 			methods.setVariables(_defaultSettings);
 			methods.addEventListeners(_defaultSettings);
@@ -40,30 +49,40 @@
 		},
 		
 		setVariables: function(settings){
-			audioElement = $('audio#'+settings.audioId);
-			spentTime = $("#"+settings.hook +' div.spent-time');
-			remainingTime = $("#"+settings.hook + ' div.remaining-time');
-			timeline = $("#"+settings.hook + ' .timeline'); // timeline
-			sound = $("#"+settings.hook + ' .sound'); //sound
-			playhead = $("#"+settings.hook + ' .playhead');
-			played = $("#"+settings.hook + ' .played');
-			button = $("#" + settings.buttonId);
-			music = document.getElementById(settings.audioId)
-			music.muted = false;
-			timelineWidth = $("#"+settings.hook + ' .timeline').width() - $("#"+settings.hook + ' playhead').width();			
+			
+			for (var i=0; i<numberOfAudioElements; i++){
+				audioElement.push($('audio#'+settings.audioId[i]));
+				spentTime.push($("#"+settings.hook[i] +' div.spent-time'));
+				remainingTime.push($("#"+settings.hook[i] + ' div.remaining-time'));
+				timeline.push($("#"+settings.hook[i] + ' .timeline')); // timeline
+				sound.push($("#"+settings.hook[i] + ' .sound')); //sound
+				playhead.push($("#"+settings.hook[i] + ' .playhead'));
+				played.push($("#"+settings.hook[i] + ' .played'));
+				button.push($("#" + settings.buttonId[i]));
+				music.push(document.getElementById(settings.audioId[i]));
+				music[i].muted = false;
+				timelineWidth.push($("#"+settings.hook[i] + ' .timeline').width() - $("#"+settings.hook[i] + ' playhead').width());	
+			}
 		},
 		
 		buildDOM: function(settings){
 			
-			var rootElement = settings.hook;
+			var audioTag = document.getElementsByTagName('audio');
+			var rootElement = [];
 			
-			$("#" + rootElement).html("<button id=\"" + settings.buttonId + "\" class=\"play\"></button>")
-						  .append("<div class=\"timeline\"></div>")
-						  .append("<div class=\"counter\"></div>")
-						  .append("<div class=\"sound\"></div>");
-						  
-			$('.timeline').html("<div class=\"playhead\"></div>").append("<div class=\"played\"></div>");
-			$('.counter').html("<div class=\"spent-time\">0:00</div>").append("<div class=\"separator\">/</div>").append("<div class=\"remaining-time\"></div>");
+			for (var i=0; i<numberOfAudioElements; i++){
+				
+				rootElement.push(settings.hook[i]);
+			
+				$(audioTag[i]).after("<div id=\"" + rootElement[i]+ "\"></div>");
+				$("#"+rootElement[i]).append("<button id=\"" + settings.buttonId[i] + "\" class=\"play\"></button>")
+							  		 .append("<div class=\"timeline\"></div>")
+							  		 .append("<div class=\"counter\"></div>")
+							  		 .append("<div class=\"sound\"></div>");
+							  
+				$('.timeline').html("<div class=\"playhead\"></div>").append("<div class=\"played\"></div>");
+				$('.counter').html("<div class=\"spent-time\">0:00</div>").append("<div class=\"separator\">/</div>").append("<div class=\"remaining-time\"></div>");
+			}
 			
 		},
 		
