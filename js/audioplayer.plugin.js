@@ -88,51 +88,56 @@
 		
 		addEventListeners: function(settings){
 		
-			//add event listener to the button
-			button.click(
-				function(){
-					methods.play(music);					
-				}
-			);
+			for (var i=0; i<numberOfAudioElements; i++){
 			
-			sound.click(
-				function(){
-					if (music.muted == false){
-						music.muted = true;
-						//sound.style.backgroundImage = "";
-						sound.css("background-image", "");
-						//sound.style.backgroundImage = "url(\"" + imagesRoot + "speaker-off.png\")";
-						sound.css("background-image", "url(\"" + imagesRoot + "speaker-off.png\")");
+			
+				//add event listener to the button
+				$(button[i]).click(
+					function(e){
+						methods.play(e.currentTarget);					
 					}
-					else{
-						music.muted = false;
-						//sound.style.backgroundImage = "";
-						sound.css("background-image", "");
-						//sound.style.backgroundImage = "url(\"" + imagesRoot + "speaker-on.png\")";
-						sound.css("background-image", "url(\"" + imagesRoot + "speaker-on.png\")");
+				);
+				
+				sound[i].click(
+					function(){
+						if (music[i].muted == false){
+							music[i].muted = true;
+							//sound.style.backgroundImage = "";
+							sound[i].css("background-image", "");
+							//sound.style.backgroundImage = "url(\"" + imagesRoot + "speaker-off.png\")";
+							sound[i].css("background-image", "url(\"" + imagesRoot + "speaker-off.png\")");
+						}
+						else{
+							music[i].muted = false;
+							//sound.style.backgroundImage = "";
+							sound[i].css("background-image", "");
+							//sound.style.backgroundImage = "url(\"" + imagesRoot + "speaker-on.png\")";
+							sound[i].css("background-image", "url(\"" + imagesRoot + "speaker-on.png\")");
+						}
 					}
-				}
-			);
+				);
+				
+				//event fired every time the time get updated
+				$(audioElement).bind('timeupdate', methods.timeUpdate);
+				
+				//set the duration
+				$(audioElement).bind('loadedmetadata', methods.setDuration);
+				
+				//Makes timeline clickable
+				$('.timeline').bind(
+					'click',
+					function(event){
+						methods.moveplayhead(event);
+						music.currentTime = duration * methods.clickPercent(event);
+					},
+					false
+				);
+				
+				$('.playhead').bind('mousedown', methods.mousedown);
+				
+				$(document).bind('mouseup', methods.mouseup);
 			
-			//event fired every time the time get updated
-			$(audioElement).bind('timeupdate', methods.timeUpdate);
-			
-			//set the duration
-			$(audioElement).bind('loadedmetadata', methods.setDuration);
-			
-			//Makes timeline clickable
-			$('.timeline').bind(
-				'click',
-				function(event){
-					methods.moveplayhead(event);
-					music.currentTime = duration * methods.clickPercent(event);
-				},
-				false
-			);
-			
-			$('.playhead').bind('mousedown', methods.mousedown);
-			
-			$(document).bind('mouseup', methods.mouseup);
+			}
 			
 		},
 		
@@ -215,20 +220,37 @@
 			}
 		},
 		
+		getIndex: function(element, array){
+				//get the Button index
+				for (var j=0; j<numberOfAudioElements; j++){
+					if (element.id == array[j][0].id){
+						return j;
+					}
+					
+				}
+				return -1
+		},
+		
 		play: function(audioId){
-			if (audioId.paused) {
-				audioId.play();
+			
+			//which button is invoking the action? In which position within the array is the button located?
+			
+			var x = methods.getIndex(audioId, button);
+			//var x = $.inArray(audioId, button);
+						
+			if (music[x].paused) {
+				music[x].play();
 				
 				// remove play, add pause
-				button.removeClass();
-				button.addClass("pause");
+				button[x].removeClass();
+				button[x].addClass("pause");
 
 			} else { // pause music
-				audioId.pause();
+				music[x].pause();
 				
 				// remove pause, add play
-				button.removeClass();
-				button.addClass("play");
+				button[x].removeClass();
+				button[x].addClass("play");
 			}
 		},
 	}

@@ -12,13 +12,11 @@
 
 		/*YouTube Video Library Loading*/
 		var settings = {
-			hook: ["audioplayer1", "audioplayer2"],
-			buttonId: ["button1", "button2"],
-			audioId: ["music1", "music2"]
+			hook: ["audioplayer1", "audioplayer2", "audioplayer3"],
+			buttonId: ["button1", "button2", "button3"],
+			audioId: ["music1", "music2", "music3"]
 		}
-		
-		
-	
+
 		$('#audioplayer1').jQueryAudioPlayer('init',settings);
 		
 	}); //document.ready 
@@ -33,6 +31,10 @@
 </audio>
 
 <audio id="music2" preload="true">
+  <source src="audio/demo.mp3">
+</audio>
+
+<audio id="music3" preload="true">
   <source src="audio/demo.mp3">
 </audio>
 
