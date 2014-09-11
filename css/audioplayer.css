@@ -1,0 +1,119 @@
+#audioplayer1{
+	width: 450px;
+	height: 35px;
+	margin: 50px auto auto auto;
+	/*border: solid;*/
+	background-color: #a28f7f;
+}
+
+button{
+    height:35px; 
+    width: 8%;
+    border-right: 1px dotted #FFF;
+	border:none;
+    float:left;
+    outline:none;
+	padding: 0 5px;
+	margin: 0;
+	border-right: 1px dotted #FFF;
+	cursor: pointer;
+}
+
+.play{
+	background: url('../images/play.png');
+	background-repeat: no-repeat;
+	background-size: 50% 50%;
+	background-position: center center;
+}
+.pause{
+	background: url('../images/pause.png');
+	background-repeat: no-repeat;
+	background-size: 50% 50%;
+	background-position: center center;
+}
+
+.timeline{
+	width: 55%;
+	height: 10px;
+	margin: 13px 15px;
+	float: left;
+	/*border-radius: 15px;*/
+	background: rgba(0,0,0,.3);
+  
+}
+.playhead {
+    background-color: #fff;
+    border: 1px solid #73563f;
+    border-radius: 20%;
+    cursor: pointer;
+    height: 13px;
+    position: relative;
+    top: -2px;
+    width: 14px;
+	left: 0;
+}
+
+.played{
+	height: 10px;
+	top: -14px;
+	position:relative;
+	background-color: #FFF;
+	z-index: 1;
+	width: 0;
+	left: 0;
+}
+
+
+.sound {
+    background-image: url("../images/speaker-on.png");
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: 50% 50%;
+    border-left: 1px dotted white;
+    cursor: pointer;
+    float: left;
+    height: 25px;
+   	margin: 0;
+    padding: 5px 0;
+    position: relative;
+    width: 7%;
+}
+
+div.spent-time,
+div.remaining-time{
+	color: #FFF;
+	width: 35%;
+	position: relative;
+    top: 2px;
+}
+
+.spent-time {
+    display: block;
+    overflow: hidden;
+	float: left;
+}
+
+.remaining-time {
+    display: block;
+	float:left;
+	overflow:hidden;
+}
+
+.counter {
+    float: left;
+    height: 25px;
+    margin: 5px;
+    width: 20%;
+	/*text-align: center;*/
+}
+
+.separator{
+	color: #fff;
+    float: left;
+    margin: 0 2px;
+    overflow: hidden;
+    position: relative;
+    top: 2px;
+    width: 10%;
+}
+
