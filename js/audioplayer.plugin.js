@@ -98,21 +98,26 @@
 					}
 				);
 				
-				sound[i].click(
-					function(){
-						if (music[i].muted == false){
-							music[i].muted = true;
+				$(sound[i]).click(
+					function(e){
+						
+						//let's figure out where the click come from (which "sound" button
+						var y = methods.getSoundButtonIndex(e.target.parentElement, sound);
+						// e.target.parentElement.id == audioplayer1
+						
+						if (music[y].muted == false){
+							music[y].muted = true;
 							//sound.style.backgroundImage = "";
-							sound[i].css("background-image", "");
+							sound[y].css("background-image", "");
 							//sound.style.backgroundImage = "url(\"" + imagesRoot + "speaker-off.png\")";
-							sound[i].css("background-image", "url(\"" + imagesRoot + "speaker-off.png\")");
+							sound[y].css("background-image", "url(\"" + imagesRoot + "speaker-off.png\")");
 						}
 						else{
-							music[i].muted = false;
+							music[y].muted = false;
 							//sound.style.backgroundImage = "";
-							sound[i].css("background-image", "");
+							sound[y].css("background-image", "");
 							//sound.style.backgroundImage = "url(\"" + imagesRoot + "speaker-on.png\")";
-							sound[i].css("background-image", "url(\"" + imagesRoot + "speaker-on.png\")");
+							sound[y].css("background-image", "url(\"" + imagesRoot + "speaker-on.png\")");
 						}
 					}
 				);
@@ -220,10 +225,21 @@
 			}
 		},
 		
-		getIndex: function(element, array){
+		getPlayButtonIndex: function(element, array){
 				//get the Button index
 				for (var j=0; j<numberOfAudioElements; j++){
 					if (element.id == array[j][0].id){
+						return j;
+					}
+					
+				}
+				return -1
+		},
+		
+		getSoundButtonIndex: function(element, array){
+				//get the Button index
+				for (var j=0; j<numberOfAudioElements; j++){
+					if (element.id == array[j][0].parentElement.id){
 						return j;
 					}
 					
@@ -235,7 +251,7 @@
 			
 			//which button is invoking the action? In which position within the array is the button located?
 			
-			var x = methods.getIndex(audioId, button);
+			var x = methods.getPlayButtonIndex(audioId, button);
 			//var x = $.inArray(audioId, button);
 						
 			if (music[x].paused) {
