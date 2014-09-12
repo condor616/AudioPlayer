@@ -250,18 +250,31 @@
 		play: function(audioId){
 			
 			//which button is invoking the action? In which position within the array is the button located?
-			
 			var x = methods.getPlayButtonIndex(audioId, button);
 			//var x = $.inArray(audioId, button);
 						
 			if (music[x].paused) {
+				
+				//music is paused, but we need to check if others audioplayer are playing and, in case, stop them
+				for (var z=0; z<numberOfAudioElements; z++){
+					
+					if (z==x)
+						continue;
+					
+					if (music[z].paused == false){		
+						music[z].pause();
+						button[z].removeClass();
+						button[z].addClass("play");
+					}
+				}
+				
 				music[x].play();
 				
 				// remove play, add pause
 				button[x].removeClass();
 				button[x].addClass("pause");
 
-			} else { // pause music
+			} else { // music is playing, pause music
 				music[x].pause();
 				
 				// remove pause, add play
